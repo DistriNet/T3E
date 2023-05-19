@@ -1,0 +1,6 @@
+[submodule "external/tpm2-tss"]
+	path = external/tpm2-tss
+	url = https://github.com/tpm2-software/tpm2-tss.git
+[submodule "external/date"]
+	path = external/date
+	url = https://github.com/HowardHinnant/date.git

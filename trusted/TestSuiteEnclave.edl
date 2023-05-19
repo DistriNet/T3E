@@ -1,0 +1,26 @@
+enclave {
+    from "T3E-Enclave.edl" import *;
+    include "TPMStruct.h"
+    include "stdbool.h"
+    include "TestSuiteStruct.h"
+
+    trusted {
+        public void t3e_Test_LongRunningOperations();
+        public void t3e_Test_DelayedTest([out, count=size] TestEntry* res, size_t size);
+        public void t3e_Test_DelayedTestControl([out, count=size] TestEntry* res, size_t size);
+        public void t3e_Test_Sign([in, count=bufsize] const uint8_t* buf, size_t bufsize, [out, count=size] TestEntry* res, size_t size);
+        public void t3e_Test_EnableTrustedTime();
+        public void t3e_Test_rdtscp();
+        public void t3e_Test_rdtsc();
+
+        public void t3e_Test_SingleSign(uint32_t sequence, [in, count=bufsize] const uint8_t* buf, size_t bufsize);
+    };
+
+    untrusted {
+        void t3e_Test_PrintOut([in, count=len] const char* str, size_t len);
+        uint64_t t3e_Test_rdtsc_ocall();
+        int64_t t3e_Test_time_ocall();
+        void t3e_Test_ReceiveTimestamp(uint32_t sequence, [in, count=bufsize] const char* buf, size_t bufsize);
+        
+    };
+};

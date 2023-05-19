@@ -1,0 +1,36 @@
+
+enclave {
+    from "sgx_tstdc.edl" import *;
+    from "sgx_pthread.edl" import *;
+
+    include "TPMStruct.h"
+
+    include "stdbool.h"
+
+    trusted {
+        public void t3e_TrustedTime_start(
+            intptr_t tthandle, 
+            [in] const TPMObjectData* endorsementKey, 
+            [in] const TPMPrivateObjectData* attestationKey);
+
+        public uint8_t t3e_TrustedTime_getTrustedTime([out] uint64_t* timeOut, [out] uint64_t* counterTime);
+        public void t3e_TrustedTime_stop();
+        public void t3e_TrustedTime_counterThread();
+    };
+
+    untrusted {
+        void t3e_TrustedTime_activateCredential(
+            intptr_t tthandle,
+            [in] const TPMPrivateObjectData* attestationKey, 
+            [in, count = cntCredential] const uint8_t* credential, size_t cntCredential,
+            [in, count = cntEncSeed] const uint8_t* encSeed, size_t cntEncSeed,
+            [out, count = cntTokenOut] uint8_t* tokenOut, size_t cntTokenOut);
+
+        TPMGetTimeData t3e_TrustedTime_getTime(intptr_t tthandle, [in, count = qualifyingDataLen] const uint8_t* qualifyingData, size_t qualifyingDataLen);
+        uint64_t t3e_TrustedTime_getSystemTime();
+        void t3e_TrustedTime_debugPrintTime(uint64_t currentClock, uint64_t currentEpoch);
+        void t3e_TrustedTime_debugTimeLog([in, count = logCount] TrustedTimeLog* logArr, size_t logCount);
+        void t3e_Test_DebugPrint([in, string] const char* str);
+    };
+
+};
