@@ -277,7 +277,7 @@ static TS_RESP* create_response(BIO* query_bio, EVP_PKEY* inkey, X509* signer, S
                 auto time                                  = trustedTime / 1000;
                 *sec                                       = time;
                 *usec                                      = (trustedTime % 1000) * 1000; // microsecond
-                // sgxtt_TrustedTime_debugPrintTime(0, trustedTime);
+                // sgxtt_TrustedTime_debugPrintTime(0, trustedTime); // Uncomment to print the time each time request
                 return 1;
             }
             return 0;

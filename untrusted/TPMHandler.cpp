@@ -99,12 +99,7 @@ EsysContext& EsysContext::operator=(EsysContext&& that)
     return *this;
 }
 
-TSS2_SYS_CONTEXT* EsysContext::getSysContext() const
-{
-    TSS2_SYS_CONTEXT* ret = nullptr;
-    Esys_GetSysContext(this->ectx, &ret);
-    return ret;
-}
+
 
 bool EsysContext::setTimeout(int32_t timeout)
 {
@@ -161,7 +156,8 @@ EsysSession::EsysSession(EsysContext const& ctx, TPM2_SE sessionType): ctx(ctx)
 
 EsysSession::~EsysSession()
 {
-    Esys_FlushContext(this->ctx, this->sessionHandle);
+    if(this->sessionHandle != ESYS_TR_NONE)
+        Esys_FlushContext(this->ctx, this->sessionHandle);
 }
 
 auto EsysContext::createPrimary(ESYS_TR primaryHandle, TPM2B_SENSITIVE_CREATE const& sensitive,
