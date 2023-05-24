@@ -5,6 +5,7 @@
 #include "T3E.h"
 
 #include "OpenSSLHelper.h"
+#include "sys/limits.h"
 
 #include <array>
 #include <memory>
@@ -649,7 +650,7 @@ __thread struct
  */
 std::tuple<bool, uint64_t, uint64_t> t3e::getTrustedTime()
 {
-    while (threadContext.useCount > 14 || currentEpochTime == 0)
+    while (threadContext.useCount > USE_COUNT_LIMIT || currentEpochTime == 0)
     {
         if (currentEpochTime != 0 && threadContext.threadCurrentTime != currentEpochTime)
         {

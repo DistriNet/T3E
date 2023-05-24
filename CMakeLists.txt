@@ -13,6 +13,9 @@ set(TPM_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/tpm2-tss/include)
 
 set(EDL_SEARCH_PATHS trusted ${TPM_INCLUDE_DIR} include test/delayed-test)
 
+# Change the use count limit here, set INT_MAX if no use count
+add_compile_definitions(USE_COUNT_LIMIT=INT_MAX)
+
 include_directories(${TPM_INCLUDE_DIR} include)
 link_directories(${TPM_LIB_DIR})
 
